@@ -1,14 +1,16 @@
 package rr_scheduler;
 
-public class Thread{
+public class Process{
 
 	private int runtime;
+	private int id;
 	
-	public Thread(int rt){
+	public Process(int rt, int ident){
 		this.runtime = rt;
+		this.id = ident;
 	}
 	
-	public void run(){
+	public void decrement(){
 		runtime--;
 	}
 	

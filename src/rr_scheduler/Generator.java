@@ -1,16 +1,42 @@
 package rr_scheduler;
 
-import java.util.Queue;
+import java.awt.event.ActionEvent;
+import java.util.Random;
+
+import concurrency.display.ThreadPanel;
 
 public class Generator implements Runnable{
-	Queue queue;
-	public Generator(Queue<Thread> q){
+	ReadyQueue queue;
+	final int maxt = 5;
+	final int mint = 1;
+	int id = 0;
+	int random_time;
+	ThreadPanel display;
+	Random rn = new Random();
+	
+	public Generator(ReadyQueue q){
 		this.queue = q;
+	}
+	
+	public void setDisp(ThreadPanel disp){
+		display = disp;
 	}
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		try{
+			while(true){
+				ThreadPanel.rotate(360);
+				Process nextThread;
+				random_time = rn.nextInt(maxt-mint+1)+mint;
+				nextThread = new Process(1, id);
+				id++; //unique process id
+				queue.add(nextThread);
+				
+				ActionEvent ae = new ActionEvent((Object)display.pause, ActionEvent.ACTION_PERFORMED, "");
+				display.pause.dispatchEvent(ae);
+			}
+		}catch (InterruptedException e) {}
 		
 	}
 	
