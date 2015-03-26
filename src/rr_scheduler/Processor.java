@@ -1,7 +1,5 @@
 package rr_scheduler;
 
-import java.util.AbstractQueue;
-import java.util.Queue;
 
 import concurrency.display.ThreadPanel;
 
@@ -9,15 +7,17 @@ public class Processor implements Runnable{
 	ReadyQueue queue;
 	Process currentThread;
 	ThreadPanel display;
+	Grimreaper grimreaper;
 	
-	public Processor(ReadyQueue q){
+	public Processor(ReadyQueue q, Grimreaper g){
 		this.queue = q;
+		this.grimreaper = g; 
 	}
 	
 	public void setDisp(ThreadPanel disp){
 		display = disp;
 	}
-
+	
 	@Override
 	public void run() {
 		try {
@@ -27,10 +27,11 @@ public class Processor implements Runnable{
 					ThreadPanel.rotate(360);
 					currentThread.decrement();
 					queue.add(currentThread);
+				}else if(queue.peek() != null && queue.peek().getTime() == 0){
+					grimreaper.reap();
 				}
 			}
 		} catch (InterruptedException e) {}
-		// TODO Auto-generated method stub
 	}
 	
 }

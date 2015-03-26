@@ -26,7 +26,7 @@ public class Generator implements Runnable{
 	public void run() {
 		try{
 			while(true){
-				ThreadPanel.rotate(360);
+				ThreadPanel.rotate(10);
 				Process nextThread;
 				random_time = rn.nextInt(maxt-mint+1)+mint;
 				nextThread = new Process(1, id);
