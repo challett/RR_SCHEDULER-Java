@@ -29,7 +29,7 @@ public class Generator implements Runnable{
 				ThreadPanel.rotate(10);
 				Process nextThread;
 				random_time = rn.nextInt(maxt-mint+1)+mint;
-				nextThread = new Process(1, id);
+				nextThread = new Process(random_time, id);
 				id++; //unique process id
 				queue.add(nextThread);
 				
