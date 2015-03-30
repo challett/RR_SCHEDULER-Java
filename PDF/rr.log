@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.2.23)  29 MAR 2015 17:13
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.2.23)  30 MAR 2015 14:44
 entering extended mode
 **rr.tex
 
@@ -933,21 +933,45 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 27.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+Underfull \hbox (badness 10000) in paragraph at lines 49--54
+
+ []
+
 (C:\Users\Nick\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
 File: lstlang1.sty 2014/09/06 1.5e listings language file
 )
 [1
 
-{C:/Users/Nick/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+{C:/Users/Nick/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 89--90
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 94--98
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--108
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--114
+
+ []
+
+[2] [3]
 ("C:\Users\Nick\Documents\Ecole\Université (McMaster)\McMaster\Courses\SOFTWAR
 E ENG III\Deuxième Semestre\Software Design III (3BB4)\Assignments\RR_SCHEDULE
 R-Java\PDF\rr.aux") ) 
 Here is how much of TeX's memory you used:
- 21508 strings out of 493921
- 415267 string characters out of 3144879
- 464458 words of memory out of 3000000
- 24477 multiletter control sequences out of 15000+200000
- 10796 words of font info for 40 fonts, out of 3000000 for 9000
+ 21510 strings out of 493921
+ 415288 string characters out of 3144879
+ 465896 words of memory out of 3000000
+ 24478 multiletter control sequences out of 15000+200000
+ 10964 words of font info for 41 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  55i,12n,54p,10391b,1119s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsf
@@ -955,10 +979,11 @@ onts/cm/cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfon
 ts/cm/cmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/
 cm/cmr12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
 cmr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti
-12.pfb>
-Output written on rr.pdf (2 pages, 65971 bytes).
+12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10
+.pfb>
+Output written on rr.pdf (3 pages, 87850 bytes).
 PDF statistics:
- 32 PDF objects out of 1000 (max. 8388607)
+ 39 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
