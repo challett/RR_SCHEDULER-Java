@@ -9,17 +9,23 @@ public class Process{
 		this.runtime = rt;
 		this.id = ident;
 	}
-	
+	/**
+	 * Decrements runtime
+	 */
 	public synchronized void decrement(){
 		runtime--;
 	}
-	
-	// Get the process execution total time
+	/**
+	 * Gets remaining runtime
+	 * @return remaining runtime
+	 */
 	public synchronized int getTime(){
 		return runtime;
 	}
-	
-	// Get the unique process id
+	/**
+	 * Gets process ID
+	 * @return Process ID
+	 */
 	public int getId(){
 		return id;
 	}

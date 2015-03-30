@@ -9,13 +9,13 @@ public class CPU implements Runnable{
 	ReadyQueue queue;
 	Process currentThread;
 	ThreadPanel display;
-	GrimReaper grimReaper;
+	Grimreaper grimreaper;
 	Dispatcher dispatcher;
 	Label servicetext;
 	
-	public CPU(ReadyQueue q, GrimReaper g, Dispatcher d, Label servicing){
+	public CPU(ReadyQueue q, Grimreaper g, Dispatcher d, Label servicing){
 		this.queue = q;
-		this.grimReaper = g;
+		this.grimreaper = g;
 		this.dispatcher = d;
 		this.servicetext = servicing;
 	}
@@ -28,18 +28,19 @@ public class CPU implements Runnable{
 	public void run() {
 		try {
 			while(true){
-				if (queue.peek() != null && queue.peek().getTime() > 0){  												// Executes if there is remaining runtime
-					currentThread = dispatcher.load(); 																	// Loads next process
+				if (queue.peek() != null && queue.peek().getTime() > 0){ //executes if there is still runtime left
+					currentThread = dispatcher.load(); //loads next process
 					ThreadPanel.rotate(360);
 					servicetext.setText("Process #" + String.valueOf(currentThread.getId()) + " executed for 1 tick");
-					grimReaper.setThread(currentThread); 																// Sets process to be run 
+					grimreaper.setThread(currentThread); //sets process to be run 
 					if (currentThread.getTime() == 1) {
-						grimReaper.reap(); 
+						grimreaper.reap(); 
 					}else {
-						grimReaper.reuse(); 																			// Reschedules process
+						grimreaper.reuse(); //recycles process
 					}					
 				}
 			}
 		} catch (InterruptedException e) {}
 	}
+	
 }
