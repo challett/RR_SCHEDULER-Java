@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.2.23)  31 MAR 2015 17:24
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.2.23)  31 MAR 2015 19:29
 entering extended mode
 **rr.tex
 
@@ -963,7 +963,7 @@ R-Java\PDF\rr.aux") )
 Here is how much of TeX's memory you used:
  21624 strings out of 493921
  416682 string characters out of 3144879
- 608571 words of memory out of 3000000
+ 608575 words of memory out of 3000000
  24582 multiletter control sequences out of 15000+200000
  13317 words of font info for 51 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
@@ -978,7 +978,7 @@ mr12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9
 fb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb
 ><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><
 C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on rr.pdf (5 pages, 146110 bytes).
+Output written on rr.pdf (5 pages, 146132 bytes).
 PDF statistics:
  61 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

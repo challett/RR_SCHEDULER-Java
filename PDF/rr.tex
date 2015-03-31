@@ -51,8 +51,8 @@
 This document elaborates the round-robin scheduler Java implementation and how it functions in order to schedule a series of processes for eventual execution.
 
 \subsection*{Overview}
-The following points demonstrate how the applets user interface is to be used in order for the round-robin scheduler to function properly. \par 
-First, in order to generate a single process, press the \textit{run} button found in the \textit{Generator} panel which will in turn display an additional 10 degrees to the cyclical counter. Note that multiple processes may be generated, during or in between executions, always increasing the cyclical counter by 10 degree increments. \par 
+The following points demonstrate how the applet's user interface is to be used in order to function properly. \par 
+First, in order to generate a single process, press the \textit{run} button found in the \textit{Generator} panel which will in turn display an additional 10 degrees to the cyclical counter. Note that multiple processes may be generated, during or in between executions, always increasing the cyclical counter by 10 degree increments while queueing each added process. \par 
 Once the desired amount of processes have been inserted into the queue, or before any processes are added, pressing \textit{run} on the \textit{CPU} panel will commence execution of the processes found within the queue. Similarly, the \textit{CPU} thread panel will rotate 360 degrees for each cycle of execution. This works by removing the process from the queue when loaded into \verb|CPU|, executing the process for a single cycle, then rescheduling the process to the tail of the queue if there is any remaining execution time. Otherwise, the completed process is not re-inserted into the queue. A series of messages found within the applet also help with understanding the current state of the program as well as the execution order for all processes found within the queue. \par 
 Below is the according LTS model. 
 \vspace{2mm}
