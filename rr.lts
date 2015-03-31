@@ -1,0 +1,33 @@
+const MaxIF=6
+range IF=0..MaxIF-1
+const MaxCPU=5
+range CPUT = 0..MaxCPU
+
+GENERATOR=GENERATOR[0],
+GENERATOR[num:IF] = (enqueue[num] -> GENERATOR[(num+1)%MaxIF]).
+
+QUEUE = (enqueue[num:IF] -> QUEUE[num]),
+QUEUE[n0:IF] = (
+   enqueue[num:IF] -> QUEUE[n0][num]
+   | cpu.load[n0] -> QUEUE),
+QUEUE[n0:IF][n1:IF] = (
+   enqueue[num:IF] -> QUEUE[n0][n1][num]
+   | cpu.load[n0] -> QUEUE[n1]),
+QUEUE[n0:IF][n1:IF][n2:IF] = (
+   enqueue[num:IF] -> QUEUE[n0][n1][n2][num]
+   | cpu.load[n0] -> QUEUE[n1][n2]),
+QUEUE[n0:IF][n1:IF][n2:IF][n3:IF] = (
+   enqueue[num:IF] -> QUEUE[n0][n1][n2][n3][num]
+   | cpu.load[n0] -> QUEUE[n1][n2][n3]),
+QUEUE[n0:IF][n1:IF][n2:IF][n3:IF][n4:IF] = (
+   enqueue[num:IF] -> QUEUE[n0][n1][n2][n3][n4][num]
+   | cpu.load[n0] -> QUEUE[n1][n2][n3][n4]),
+QUEUE[n0:IF][n1:IF][n2:IF][n3:IF][n4:IF][n5:IF] = (
+   cpu.load[n0] -> QUEUE[n1][n2][n3][n4][n5]).
+
+CPU = CPU[0],
+CPU[t:CPUT] = (
+   when (t==0) load[c:IF] -> quantums[i:1..MaxCPU] -> CPU[i]
+   | when (t!=0) tick -> CPU[t-1]).
+
+||RR_SCHEDULER=(cpu:CPU|| GENERATOR || QUEUE).

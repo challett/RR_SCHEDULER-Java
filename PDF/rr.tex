@@ -50,17 +50,46 @@
 \section*{Round Robin Scheduler}
 This document elaborates the round-robin scheduler Java implementation and how it functions in order to schedule a series of processes for eventual execution.
 
-\subsection*{Usage Overview}
+\subsection*{Overview}
 The following points demonstrate how the applets user interface is to be used in order for the round-robin scheduler to function properly. \par 
 First, in order to generate a single process, press the \textit{run} button found in the \textit{Generator} panel which will in turn display an additional 10 degrees to the cyclical counter. Note that multiple processes may be generated, during or in between executions, always increasing the cyclical counter by 10 degree increments. \par 
-Once the desired amount of processes have been inserted into the queue, or before any processes are added, pressing \textit{run} on the \textit{CPU} panel will commence execution of the processes found within the queue. Similarly, the \textit{CPU} thread panel will rotate 360 degrees for each cycle of execution. This works by removing the process from the queue when loaded into \verb|CPU|, executing the process for a single cycle, then rescheduling the process to the tail of the queue if there is any remaining execution time. Otherwise, the completed process is not re-inserted into the queue. \par 
-A series of messages found within the applet also help with understanding the current state of the program as well as the execution order for all processes found within the queue.
-
-\subsection*{LTS}
+Once the desired amount of processes have been inserted into the queue, or before any processes are added, pressing \textit{run} on the \textit{CPU} panel will commence execution of the processes found within the queue. Similarly, the \textit{CPU} thread panel will rotate 360 degrees for each cycle of execution. This works by removing the process from the queue when loaded into \verb|CPU|, executing the process for a single cycle, then rescheduling the process to the tail of the queue if there is any remaining execution time. Otherwise, the completed process is not re-inserted into the queue. A series of messages found within the applet also help with understanding the current state of the program as well as the execution order for all processes found within the queue. \par 
 Below is the according LTS model. 
 \vspace{2mm}
 \begin{lstlisting}[language=Python, frame=l]
- asdf
+ const MaxIF=6
+ range IF=0..MaxIF-1
+ const MaxCPU=5
+ range CPUT = 0..MaxCPU 
+
+ GENERATOR=GENERATOR[0],
+ GENERATOR[num:IF] = (enqueue[num] -> GENERATOR[(num+1)%MaxIF]).
+
+ QUEUE = (enqueue[num:IF] -> QUEUE[num]),
+ QUEUE[n0:IF] = (
+ enqueue[num:IF] -> QUEUE[n0][num]
+ | cpu.load[n0] -> QUEUE),
+ QUEUE[n0:IF][n1:IF] = (
+ enqueue[num:IF] -> QUEUE[n0][n1][num]
+ | cpu.load[n0] -> QUEUE[n1]),
+ QUEUE[n0:IF][n1:IF][n2:IF] = (
+ enqueue[num:IF] -> QUEUE[n0][n1][n2][num]
+ | cpu.load[n0] -> QUEUE[n1][n2]),
+ QUEUE[n0:IF][n1:IF][n2:IF][n3:IF] = (
+ enqueue[num:IF] -> QUEUE[n0][n1][n2][n3][num]
+ | cpu.load[n0] -> QUEUE[n1][n2][n3]),
+ QUEUE[n0:IF][n1:IF][n2:IF][n3:IF][n4:IF] = (
+ enqueue[num:IF] -> QUEUE[n0][n1][n2][n3][n4][num]
+ | cpu.load[n0] -> QUEUE[n1][n2][n3][n4]),
+ QUEUE[n0:IF][n1:IF][n2:IF][n3:IF][n4:IF][n5:IF] = (
+ cpu.load[n0] -> QUEUE[n1][n2][n3][n4][n5]).
+
+ CPU = CPU[0],
+ CPU[t:CPUT] = (
+ when (t==0) load[c:IF] -> quantums[i:1..MaxCPU] -> CPU[i]
+ | when (t!=0) tick -> CPU[t-1]).
+
+ ||RR_SCHEDULER=(cpu:CPU || GENERATOR || QUEUE).
 \end{lstlisting}
 
 \newpage 
