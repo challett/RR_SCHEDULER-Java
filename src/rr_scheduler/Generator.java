@@ -4,17 +4,12 @@ import java.awt.event.ActionEvent;
 import java.util.Random;
 
 import concurrency.display.ThreadPanel;
-/**
- * 
- * @author Nick
- *
- */
 
 public class Generator implements Runnable{
 	ReadyQueue queue;
-	final int maxt = 5; //for runtime of processes, random number between 1-5 ticks
+	final int maxt = 5; 																					// For runtime of processes, random number between 1-5 ticks
 	final int mint = 1;
-	int id = 0;			//unique process ID
+	int id = 0;																								// Unique process ID
 	int random_time;
 	ThreadPanel display;
 	Random rn = new Random();
@@ -31,20 +26,16 @@ public class Generator implements Runnable{
 	public void run() {
 		try{
 			while(true){
-				ThreadPanel.rotate(10); //generator ThreadPanel turns 10 deg for each process scheduled in the queue
+				ThreadPanel.rotate(10); 																	// Generator ThreadPanel turns 10 deg for each process generated
 				Process nextThread;
-				random_time = rn.nextInt(maxt-mint+1)+mint; //process runtime, 1-5 ticks
-				nextThread = new Process(random_time, id); //next process ready to run 
-				id++; //unique process id
-				queue.add(nextThread);  //adds next process to queue
+				random_time = rn.nextInt(maxt-mint+1)+mint; 												// Process runtime, 1-5 ticks
+				nextThread = new Process(random_time, id); 													// Next process ready to run 
+				id++; 																						// Unique process id
+				queue.add(nextThread);  																	// Adds next process to queue
 				
 				ActionEvent ae = new ActionEvent((Object)display.pause, ActionEvent.ACTION_PERFORMED, "");
 				display.pause.dispatchEvent(ae);
 			}
-		}catch (InterruptedException e) {}
-		
+		}catch (InterruptedException e) {}	
 	}
-	
-	
-
 }

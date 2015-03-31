@@ -50,7 +50,7 @@ public class RRScheduler extends Applet {
     	DispatcherMsg.setText("Dispatcher: Process # loaded into CPU.");
     	CpuMsg.setText("CPU: Process # executed for x second(s).");
     	ReaperMsg1.setText("Reaper: Process # finished executing.");
-    	ReaperMsg2.setText("Reaper: Process # recycled into ready queue with x tick(s) reamining.");
+    	ReaperMsg2.setText("Reaper: Process # rescheduled into queue with x cycle(s) remaining.");
     	
     	// Adds above labels and panels to Applet
     	add(processorPanel);

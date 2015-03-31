@@ -1,4 +1,4 @@
-\documentclass[]{article}
+\documentclass[]{report}
 \usepackage[UKenglish]{babel}
 \usepackage{fixltx2e}
 \usepackage{multicol}
@@ -19,7 +19,8 @@
 \author{
 	\begin{tabular}{c c c c}
 		Jadees Anton & Connor Hallett & Spencer Lee & Nicolas Lelievre \\
-		\textit{1213386} & \textit{1158083} & \textit{1224941} & \textit{1203446}
+		\textit{1213386} & \textit{1158083} & \textit{1224941} & \textit{1203446} \\
+		 & & &
 	\end{tabular}
 }
 
@@ -45,97 +46,142 @@
 	%emph=[2]{word1,word2}, emphstyle=[2]{style},    
 }
 
-\section*{Round Robin Scheduler}
-This document elaborates the round-robin scheduler Java implementation and how it functions functions in order to schedule a series of processes. \\
-Overview of usage of \verb|RRScheduler| \\
-To generate a single process, press start on Generator. The thread panel will turn 10 degrees. Multiple processes can be generated, turning the thread panel 10 degrees for each one. \\
-To start loading and execution, press start on CPU \\
-CPU thread panel will turn once for each cycle of execution. Process is removed from queue when loaded, executed for 1 cycle, then recycled to the back of the queue if there is remaining execution time. \\
 
-Below is the according LTS model. \vspace{2mm}
+\section*{Round Robin Scheduler}
+This document elaborates the round-robin scheduler Java implementation and how it functions in order to schedule a series of processes for eventual execution.
+
+\subsection*{Usage Overview}
+The following points demonstrate how the applets user interface is to be used in order for the round-robin scheduler to function properly. \par 
+First, in order to generate a single process, press the \textit{run} button found in the \textit{Generator} panel which will in turn display an additional 10 degrees to the cyclical counter. Note that multiple processes may be generated, during or in between executions, always increasing the cyclical counter by 10 degree increments. \par 
+Once the desired amount of processes have been inserted into the queue, or before any processes are added, pressing \textit{run} on the \textit{CPU} panel will commence execution of the processes found within the queue. Similarly, the \textit{CPU} thread panel will rotate 360 degrees for each cycle of execution. This works by removing the process from the queue when loaded into \verb|CPU|, executing the process for a single cycle, then rescheduling the process to the tail of the queue if there is any remaining execution time. Otherwise, the completed process is not re-inserted into the queue. \par 
+A series of messages found within the applet also help with understanding the current state of the program as well as the execution order for all processes found within the queue.
+
+\subsection*{LTS}
+Below is the according LTS model. 
+\vspace{2mm}
 \begin{lstlisting}[language=Python, frame=l]
  asdf
 \end{lstlisting}
+
+\newpage 
+
+\section*{Java Classes \& Implementation}
+The following will elaborate on the roles of each implemented java classes as well as how they execute the desired tasks. 
 	
 \subsection*{ReadyQueue.java}
-Utilised \verb|ConcurrentLinkedList| Java library. \\
-Implements a queue in a first in first out (FIFO) manner. \\
-In our implementation, ReadyQueue holds processes (see process class).
+The \verb|ReadyQueue.java| class utilises a \textit{ConcurrentLinkedList} Java library in order to implement a standard queue in a first-in-first-out (FIFO) manner. \par 
+\verb|ReadyQueue| therefore holds the processes within a queue, ready for impending execution.
+
+\begin{mdframed}[backgroundcolor=lightgray!40]
+	\textbf{Design Assumption I} \par 
+	\textit{New processes (ie. processes with larger IDs) are initially stored sequentially at the tail of the queue, preserving a first-in-first-out order of primary execution. Concurrent executions may change later orders of queue IDs as completion times may vary.}
+\end{mdframed}
 
 \vspace{2mm}
 
 \subsection*{Generator.java}
-Uses the \verb|Random| java library in order to randomise the length of execution time of every process (1-5 cycles). \\
-Class generates processes to be executed by the CPU. \\
-Also assigns unique IDs to the processes. \\
-Implementation: each time you click start, the image rotates 10 degrees demonstrating a process being generated. Not run until CPU is executed.
+The \verb|Generator.java| class implements the \textit{random} Java library in order to randomise the length of execution time for every process between a pre-defined minimum and maximum value of 1 to 5 cycles respectively. \par 
+Whereas the \verb|ReadyQueue| stores the processes, \verb|Generator| generates the process to be stored, assigning unique IDs for every process created. This allows for processes to be followed during execution inside and outside of the queue. \par 
+This may be observed on the user interface by a 10 degree increment for each generated process. However, the process is not executed until \verb|CPU| is called.
+
+
+\begin{mdframed}[backgroundcolor=lightgray!40]
+	\textbf{Design Assumption II} \par 
+	\textit{Generated process IDs are assigned numerically in increasing order, starting at 0, and are unbounded allowing for a theoretical infinite amount of generated processes.}
+\end{mdframed}
 
 \vspace{2mm}
 
 \subsection*{Dispatcher.java}
-Looks at the queue and loads the process at the head of the queue to the CPU.
+Possibly the simplest class within this round-robin scheduler, \verb|Dispatcher.java| loads the process at the head of the queue into the \verb|CPU| for execution.
 
 \vspace{2mm}
 
 \subsection*{CPU.java}
-Calls the dispatcher to load a process for execution. \\
-Executes the process for 1 cycle. \\
-If the process has not completed full execution after one run cycle, it is recycled to the back of the queue for impending completion. \\
-Otherwise, if there is no remaining run time, the process is removed.
+As previously mentioned, \verb|CPU.java| calls the above \verb|Dispatcher.java| to load a single process for execution. This execution is scheduled for one cycle. \par 
+If the process has not completed it's full execution after one run cycle, it is rescheduled to the tail of the queue for eventual completion. Otherwise, if there is no remaining run time, the process is removed by \verb|GrimReaper|. \par 
+This process may be observed in the user interface under the \textit{CPU} thread panel. Pressing \textit{run} executes \verb|CPU| indefinitely until there are either no remaining processes in the queue for execution, or the \textit{pause} button is pressed, temporarily halting execution. \par 
+A processes execution is graphically represented using a cyclical counter, similar to the \textit{Generator} panel. A single cycle of execution is displayed using a completed circle. \verb|CPU| may be paused at any time during execution.
+
+\newpage 
+
+\begin{mdframed}[backgroundcolor=lightgray!40]
+	\textbf{Design Assumption III} \par 
+	\textit{The process is not executed by} \verb|CPU| \textit{inside the queue. Instead, it is removed from the queue by} \verb|Dispatcher| \textit{and is either eliminated or rescheduled in the queue by the} \verb|CPU| \textit{depending on the execution's outcome}.
+\end{mdframed}
 
 \vspace{2mm}
 
 \subsection*{GrimReaper.java}
-Looks at processes after the CPU has processed them for 1 cycle. If there is remaining runtime, Grimreaper recycles the process to the back of the queue. If there is no remaining runtime, the process is not recycled. \\
+The \verb|GrimReaper.java| class removes the process if, after execution by the \verb|CPU|, there is no remaining run time for any given process after a cycle of execution (it is not restored into the queue). \par 
+On the other hand, if the process requires more execution time before completion, \verb|GrimReaper| reschedules the process by placing it at the tail of the queue.
+
+\begin{mdframed}[backgroundcolor=lightgray!40]
+	\textbf{Design Assumption IV} \par 
+	\textit{Completed processes are immediately eliminated without the need to be reintroduced into the queue.}
+\end{mdframed}
 
 \vspace{2mm}
 
 \subsection*{Process.java}
-Implements the processes that are scheduled and run. \\
-Each process created has a total runtime (random number between 1-5 cycles) and a unique process ID. \\
-Runtime decremented once by CPU each time it is run. \\
-Processes stored in ReadyQueue. \\ 
+The \verb|Process.java| class implements the processes that are scheduled and run by decrementing they're remaining execution time by 1 after the execution of a full \verb|CPU| cycle. \par 
+Note that each process has a total runtime (random number between 1 and 5 cycles) as well as a unique process ID for easy tracking during execution. \par 
+These processes are stored in \verb|ReadyQueue| until they reach a point for execution.
 
 \vspace{2mm}
 
 \subsection*{RRScheduler.java}
-Applet class. Contains all labels specifying what is being executed. \\
-Messages display: \\
-What process is loaded in the CPU \\
-How many cycles that process has been executed by the CPU \\
-What processes is finished executing \\
-What process is being recycled \\
+Arguably the largest of the classes, \verb|RRScheduler.java| incorporates the \textit{Applet} Java library in order to create a basic user interface for the round robin scheduler. This allows it to display both the \textit{Generator} and \textit{CPU} animated thread panels as well as a series of messages (labels) that help to understand the execution process employed by the program. \par 
+Messages displayed include:
+\begin{itemize}
+	\item What process is currently loaded into the CPU
+	\item The number of cycles that have been executed by the CPU for a unique process
+	\item What process has completed it's execution 
+	\item What process has yet to complete it's execution and must be rescheduled
+\end{itemize}
 
-\vspace{2mm}
+\begin{mdframed}[backgroundcolor=lightgray!40]
+	\textbf{Design Assumption V} \par 
+	\verb|RRScheduler| \textit{does not perform any tasks other than calling aforementioned classes and methods at the appropriate times.}
+\end{mdframed}
 
-\section*{Desirebale Properties}
-\subsection*{Many Processes are Generated}
-Generator allows multiple process to be generated. Simply press start multiple times. Each time the generator threadpanel turns 10 degrees displays a process being generated. \\
+\newpage 
+
+\section*{Desirable Properties}
+This implementation of the round robin scheduler ensures that the system's below desirable properties are all correct and present.
+
+\subsection*{Many Generated Processes}
+\verb|Generator| allows the creation (or ``generation'') of many processes. Simply press the \textit{run} button found on the \textit{Generator} thread panel multiple times before, during or after the execution of \verb|CPU|. \par 
+The ``generation'' of a new process is indicated by an increased 10 degrees in the cyclical counter, also found in the \textit{Generator} thread panel. 
 
 \vspace{2mm}
 
 \subsection*{Deadlock Free}
-System is deadlock free. All processes in the queue will be always be serviced eventually. There is no specific notion of priority in execution between processes. Processes are processed by the CPU in the order they are in the queue. 
+We have ensured that this system is completely deadlock free since all processes in the queue will eventually be serviced without fail. \par 
+There is no precise notion of priority in execution between processes since they are executed by the \verb|CPU| in the order defied by the queue.
 
 \vspace{2mm}
 
 \subsection*{No Incomplete Process Destruction}
-Processes will never be destroyed when there is still remaining execution time. Grimreaper will always recycle a process back to the queue if there is remaining execution time. 
+No process with any remaining execution time is ever destroyed. \par 
+The \verb|GrimReaper| class will always reschedule a process back into the queue if there is any execution time left for any uniquely identified process.
 
 \vspace{2mm}
 
 \subsection*{No Overuse of CPU Time}
-There is never an overuse of CPU time. The CPU will always execute the process at the front of the queue for one cycle (and only one cycle). Grimreaper will then see if execution time is remaining and recycle if needed. 
+No process stored within the queue uses the \verb|CPU| time more than is allowed by the system. \par 
+In every execution case, \verb|CPU| will execute the process at the head of the queue for exactly one cycle before \verb|GrimReaper| either eliminates or reschedules said process. 
 
 \vspace{2mm}
 
 \subsection*{No Incorrect Process Execution}
-Processes will never be recycled back to the queue if they have no remaining execution time. When being loaded to the CPU, the process is removed from the queue. After execution for 1 cycle, it is only then recycled IF there is remaining execution time. If there is no remaining execution time, it will not be recycled to the queue.  
+No process with null remaining time is ever scheduled for execution. \par 
+When loaded to the \verb|CPU|, the process is removed from the queue and is rescheduled into the queue if and only if, after 1 execution cycle, the process still has more than 0 execution cycles remaining. Otherwise, the process is not returned to the queue, ensuring that only incomplete processes remain for.
 
 \vspace{2mm}
 
 \section*{Testing}
-Used message labels to ensure appropriate workflow. 
+Proper functioning of the system was ensured using the animated \textit{Generate} and \textit{CPU} thread panels as well as the message labels found within the user interface. 
 
 
 

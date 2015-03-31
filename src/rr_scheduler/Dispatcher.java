@@ -11,14 +11,11 @@ public class Dispatcher{
 		this.msg = dispMsg;
 	}
 	
-	/**
-	 * Selects the process to be run by the CPU
-	 * @return process to be run 
-	 */
+	// Remove process queue
 	public Process load() {
 		Process toLoad = queue.remove();
 		msg.setText("Process " + String.valueOf(toLoad.getId()) + " loaded into CPU.");
 		
 		return toLoad;
 	}
-}
+} 

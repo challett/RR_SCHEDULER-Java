@@ -26,8 +26,7 @@ public class GrimReaper{
 	// Display process reschedule label
 	public void reuse() {
 		currentThread.decrement();
-		dispLabel2.setText("Process " + String.valueOf(currentThread.getId()) + " recycled into the queue with " + String.valueOf(currentThread.getTime()) + " tick remaining.");
+		dispLabel2.setText("Process " + String.valueOf(currentThread.getId()) + " rescheduled into queue with " + String.valueOf(currentThread.getTime()) + " cycle(s) remaining.");
 		q.add(currentThread);
 	}
-
 }
